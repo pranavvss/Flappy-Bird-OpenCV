@@ -11,16 +11,19 @@ https://github.com/user-attachments/assets/dd09696b-c1bd-4deb-8c24-effa93a006c1
 
 
 Requirements
-------------
+
+---------------------------------------------------------------------
+
 To run this project, you need the following dependencies installed:
 
-- Python 3.x
-- Pygame
-- OpenCV
-- MediaPipe
+- Python 3.x [Download Python latest version](https://www.python.org/downloads/)
+- Pygame [Documentation on Pygame](https://pypi.org/project/pygame/)
+- OpenCV [Documentation on OpenCV](https://opencv.org/releases/)
+- MediaPipe [Documentation on Mediapipe](https://pypi.org/project/mediapipe/)
 
 Installation
-------------
+
+---------------------------------------------------------------------
 You can install the required Python packages using pip:
 
 ```sh
@@ -28,7 +31,8 @@ pip install pygame opencv-python mediapipe
 ```
 
 Code Breakdown
---------------
+
+---------------------------------------------------------------------
 
 ### Importing Necessary Libraries
 
@@ -44,6 +48,8 @@ import mediapipe as mp
 - `collections.deque`: A double-ended queue to manage the obstacle pipes.
 - `cv2 (OpenCV)`: A Python library for real-time computer vision, used to capture webcam input.
 - `mediapipe`: A library for real-time hand tracking and gesture recognition.
+
+---------------------------------------------------------------------
 
 ### Initializing Pygame and Setting Up the Game Window
 
@@ -61,6 +67,8 @@ screen = pygame.display.set_mode(window_size)
 - `desired_width` and `desired_height`: Define the dimensions of the game window.
 - `pygame.display.set_mode(window_size)`: Creates the game window with the specified size.
 
+---------------------------------------------------------------------
+
 ### Video Capture Initialization
 
 ```python
@@ -68,6 +76,8 @@ VID_CAP = cv.VideoCapture(0)
 ```
 
 - `cv.VideoCapture(0)`: Opens the webcam for video capture. `0` refers to the default webcam.
+- 
+---------------------------------------------------------------------
 
 ### Loading Bird and Pipe Images
 
@@ -84,6 +94,8 @@ pipe_img = pygame.image.load("pipe_sprite_single.png")
 - `pygame.transform.scale()`: Scales down the bird image.
 - `bird_frame`: Defines the rectangle area occupied by the bird.
 - `pipe_frames = deque()`: Initializes a deque to store and manage pipe obstacles.
+
+---------------------------------------------------------------------
 
 ### Game Loop and Variables Initialization
 
@@ -103,6 +115,8 @@ game_is_running = True
 - Variables like `game_clock`, `stage`, `pipeSpawnTimer`, `time_between_pipe_spawn`, etc., are used to manage the timing, stage progression, and game state.
 - `pipe_velocity`: A lambda function to calculate the velocity of the pipes based on the distance and time between spawns.
 
+---------------------------------------------------------------------
+
 ### MediaPipe Hands Initialization
 
 ```python
@@ -111,6 +125,8 @@ hands = mp_hands.Hands(max_num_hands=1, min_detection_confidence=0.5, min_tracki
 ```
 
 - `mp_hands.Hands()`: Initializes the hand tracking model with parameters like `max_num_hands`, `min_detection_confidence`, and `min_tracking_confidence`.
+- 
+---------------------------------------------------------------------
 
 ### MediaPipe Drawing Utilities
 
@@ -120,6 +136,8 @@ mp_drawing_styles = mp.solutions.drawing_styles
 ```
 
 - `mp_drawing` and `mp_drawing_styles`: Used to draw hand landmarks and connections on the video feed.
+
+---------------------------------------------------------------------
 
 ### Main Game Loop
 
@@ -144,6 +162,8 @@ try:
 - The main loop runs the game until `game_is_running` is `False`.
 - If the game ends, it displays "Game over!" and waits for 2 seconds before exiting.
 
+---------------------------------------------------------------------
+
 ### Capturing and Processing Webcam Frames
 
 ```python
@@ -155,6 +175,8 @@ if not ret:
 
 - `VID_CAP.read()`: Captures a frame from the webcam.
 - If the frame is empty (failed capture), it prints a message and continues the loop.
+
+---------------------------------------------------------------------
 
 ### Hand Detection and Bird Movement
 
@@ -185,6 +207,8 @@ if results.multi_hand_landmarks:
 - The bird's position (`bird_frame.centery`) is updated based on the y-coordinate of the wrist (`hand_landmarks.landmark[0].y`).
 - Draws hand landmarks on the frame.
 
+---------------------------------------------------------------------
+
 ### Drawing and Moving Pipes
 
 ```python
@@ -199,6 +223,8 @@ if len(pipe_frames) > 0 and pipe_frames[0][0].right < 0:
 - Moves the pipes from right to left.
 - If the pipe moves out of the screen, it is removed from `pipe_frames`.
 
+---------------------------------------------------------------------
+
 ### Blitting Frame to Pygame Surface
 
 ```python
@@ -209,6 +235,8 @@ screen.blit(bird_img, bird_frame)
 
 - Flips the frame horizontally and swaps axes to match Pygame's coordinate system.
 - Blits the frame to the Pygame window.
+
+---------------------------------------------------------------------
 
 ### Score and Stage Update
 
@@ -226,6 +254,8 @@ pygame.display.flip()
 
 - Displays the current stage and score at the top of the screen.
 
+---------------------------------------------------------------------
+
 ### Clean Up Resources
 
 ```python
@@ -241,6 +271,6 @@ finally:
 - In case of an error, it prints the error message.
 - Releases resources (camera, Pygame, OpenCV) and exits the program gracefully.
 
-
+---------------------------------------------------------------------
 
 
